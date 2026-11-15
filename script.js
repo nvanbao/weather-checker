@@ -58,7 +58,9 @@ async function search() {
   try {
     const place = await geocodeCity(name);
     const current = await getWeather(place.latitude, place.longitude);
+    const daily = await getForecast(place.latitude, place.longitude);
     showWeather(place, current);
+    showForecast(daily);
     statusEl.textContent = "";
   } catch (error) {
     statusEl.textContent = error.message;
@@ -69,3 +71,36 @@ searchBtn.addEventListener("click", search);
 input.addEventListener("keydown", (event) => {
   if (event.key === "Enter") search();
 });
+
+async function getForecast(latitude, longitude) {
+  const url =
+    "https://api.open-meteo.com/v1/forecast" +
+    `?latitude=${latitude}&longitude=${longitude}` +
+    "&daily=temperature_2m_max,temperature_2m_min" +
+    "&forecast_days=4&timezone=auto";
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Không lấy được dự báo");
+  const data = await res.json();
+  return data.daily;
+}
+
+function formatDay(dateString) {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("vi-VN", {
+    weekday: "long",
+    day: "numeric",
+    month: "numeric",
+  });
+}
+
+function showForecast(daily) {
+  const listEl = document.getElementById("forecast");
+  listEl.innerHTML = "";
+  for (let i = 1; i < daily.time.length; i++) {
+    const li = document.createElement("li");
+    const min = Math.round(daily.temperature_2m_min[i]);
+    const max = Math.round(daily.temperature_2m_max[i]);
+    li.textContent = `${formatDay(daily.time[i])}: ${min}° - ${max}°C`;
+    listEl.appendChild(li);
+  }
+}
