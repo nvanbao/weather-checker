@@ -13,3 +13,15 @@ async function geocodeCity(name) {
   const { name: city, latitude, longitude, country } = data.results[0];
   return { city, latitude, longitude, country };
 }
+
+async function getWeather(latitude, longitude) {
+  const url =
+    "https://api.open-meteo.com/v1/forecast" +
+    `?latitude=${latitude}&longitude=${longitude}` +
+    "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code" +
+    "&timezone=auto";
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Không lấy được dữ liệu thời tiết");
+  const data = await res.json();
+  return data.current;
+}
