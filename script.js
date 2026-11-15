@@ -49,3 +49,23 @@ function showWeather(place, current) {
     `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
   resultEl.hidden = false;
 }
+
+async function search() {
+  const name = input.value.trim();
+  if (!name) return;
+  statusEl.textContent = "Đang tải...";
+  resultEl.hidden = true;
+  try {
+    const place = await geocodeCity(name);
+    const current = await getWeather(place.latitude, place.longitude);
+    showWeather(place, current);
+    statusEl.textContent = "";
+  } catch (error) {
+    statusEl.textContent = error.message;
+  }
+}
+
+searchBtn.addEventListener("click", search);
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") search();
+});
