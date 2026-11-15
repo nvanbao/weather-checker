@@ -28,3 +28,37 @@ h1 {
   text-align: center;
   color: #0f172a;
 }
+
+.search {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0369a1;
+}
+
+#status {
+  min-height: 1.2em;
+  margin: 12px 0 0;
+  text-align: center;
+  color: #64748b;
+}
