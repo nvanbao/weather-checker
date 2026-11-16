@@ -5,9 +5,11 @@ Dữ liệu lấy từ API miễn phí [Open-Meteo](https://open-meteo.com/) (kh
 
 ## Tính năng
 - Tìm thành phố theo tên, tự đổi sang tọa độ
-- Hiển thị nhiệt độ, mô tả thời tiết, độ ẩm, tốc độ gió
-- Dự báo 3 ngày tới
-- Báo lỗi khi không tìm thấy thành phố hoặc không gọi được API
+- Hiển thị nhiệt độ, cảm giác như, độ ẩm, tốc độ gió và dự báo 3 ngày tới
+- Đổi đơn vị °C / °F (nhớ lựa chọn)
+- Nhớ thành phố tìm gần nhất
+- Dùng vị trí hiện tại của thiết bị
+- Giao diện tối theo cài đặt hệ thống
 
 ## Cách chạy
 Mở file `index.html` bằng trình duyệt.
