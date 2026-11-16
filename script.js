@@ -41,6 +41,8 @@ function describeWeather(code) {
 
 const resultEl = document.getElementById("result");
 
+let lastData = null;
+
 function showWeather(place, current) {
   document.getElementById("place").textContent = `${place.city}, ${place.country}`;
   document.getElementById("temp").textContent = `${Math.round(current.temperature_2m)}°C`;
@@ -50,21 +52,31 @@ function showWeather(place, current) {
   resultEl.hidden = false;
 }
 
-async function search() {
-  const name = input.value.trim();
-  if (!name) return;
-  statusEl.textContent = "Đang tải...";
-  resultEl.hidden = true;
-  try {
-    const place = await geocodeCity(name);
+async function loadWeather(place) {
     const current = await getWeather(place.latitude, place.longitude);
     const daily = await getForecast(place.latitude, place.longitude);
-    showWeather(place, current);
-    showForecast(daily);
+    lastData = { place, current, daily };
+    render();
     statusEl.textContent = "";
-  } catch (error) {
-    statusEl.textContent = error.message;
-  }
+}
+
+function render() {
+    if (!lastData) return;
+    showWeather(lastData.place, lastData.current);
+    showForecast(lastData.daily);
+}
+
+async function search() {
+    const name = input.value.trim();
+    if (!name) return;
+    statusEl.textContent = "Đang tải...";
+    resultEl.hidden = true;
+    try {
+        const place = await geocodeCity(name);
+        await loadWeather(place);
+    } catch (error) {
+        statusEl.textContent = error.message;
+    }
 }
 
 searchBtn.addEventListener("click", search);
