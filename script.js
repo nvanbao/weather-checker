@@ -43,9 +43,16 @@ const resultEl = document.getElementById("result");
 
 let lastData = null;
 
+let unit = "C";
+
+function formatTemp(celsius) {
+    if (unit === "F") return `${Math.round((celsius * 9) / 5 + 32)}°F`;
+    return `${Math.round(celsius)}°C`;
+}
+
 function showWeather(place, current) {
   document.getElementById("place").textContent = `${place.city}, ${place.country}`;
-  document.getElementById("temp").textContent = `${Math.round(current.temperature_2m)}°C`;
+  document.getElementById("temp").textContent = formatTemp(current.temperature_2m);
   document.getElementById("desc").textContent = describeWeather(current.weather_code);
   document.getElementById("details").textContent =
     `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
@@ -107,15 +114,15 @@ function formatDay(dateString) {
 }
 
 function showForecast(daily) {
-  const listEl = document.getElementById("forecast");
-  listEl.innerHTML = "";
-  for (let i = 1; i < daily.time.length; i++) {
-    const li = document.createElement("li");
-    const min = Math.round(daily.temperature_2m_min[i]);
-    const max = Math.round(daily.temperature_2m_max[i]);
-    li.textContent = `${formatDay(daily.time[i])}: ${min}° - ${max}°C`;
-    listEl.appendChild(li);
-  }
+    const listEl = document.getElementById("forecast");
+    listEl.innerHTML = "";
+    for (let i = 1; i < daily.time.length; i++) {
+        const li = document.createElement("li");
+        const min = formatTemp(daily.temperature_2m_min[i]);
+        const max = formatTemp(daily.temperature_2m_max[i]);
+        li.textContent = `${formatDay(daily.time[i])}: ${min} - ${max}`;
+        listEl.appendChild(li);
+    }
 }
 
 const LAST_CITY_KEY = "weather-last-city";
