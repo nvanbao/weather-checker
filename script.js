@@ -151,9 +151,22 @@ if (lastCity) {
 
 
 const unitBtn = document.getElementById("unit-btn");
+const UNIT_KEY = "weather-unit";
+
+try {
+    if (localStorage.getItem(UNIT_KEY) === "F") unit = "F";
+} catch (error) {
+    // bỏ qua nếu trình duyệt chặn localStorage
+}
+unitBtn.textContent = unit === "C" ? "°F" : "°C";
 
 unitBtn.addEventListener("click", () => {
     unit = unit === "C" ? "F" : "C";
     unitBtn.textContent = unit === "C" ? "°F" : "°C";
+    try {
+        localStorage.setItem(UNIT_KEY, unit);
+    } catch (error) {
+        // bỏ qua nếu trình duyệt chặn localStorage
+    }
     render();
 });
