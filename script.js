@@ -74,6 +74,7 @@ async function search() {
     try {
         const place = await geocodeCity(name);
         await loadWeather(place);
+        saveLastCity(name);
     } catch (error) {
         statusEl.textContent = error.message;
     }
@@ -115,4 +116,28 @@ function showForecast(daily) {
     li.textContent = `${formatDay(daily.time[i])}: ${min}° - ${max}°C`;
     listEl.appendChild(li);
   }
+}
+
+const LAST_CITY_KEY = "weather-last-city";
+
+function saveLastCity(name) {
+    try {
+        localStorage.setItem(LAST_CITY_KEY, name);
+    } catch (error) {
+        // bỏ qua nếu trình duyệt chặn localStorage
+    }
+}
+
+function getLastCity() {
+    try {
+        return localStorage.getItem(LAST_CITY_KEY) || "";
+    } catch (error) {
+        return "";
+    }
+}
+
+const lastCity = getLastCity();
+if (lastCity) {
+    input.value = lastCity;
+    search();
 }
