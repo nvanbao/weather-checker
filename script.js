@@ -18,7 +18,7 @@ async function getWeather(latitude, longitude) {
   const url =
     "https://api.open-meteo.com/v1/forecast" +
     `?latitude=${latitude}&longitude=${longitude}` +
-    "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code" +
+    "&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code" +
     "&timezone=auto";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Không lấy được dữ liệu thời tiết");
@@ -55,7 +55,8 @@ function showWeather(place, current) {
   document.getElementById("temp").textContent = formatTemp(current.temperature_2m);
   document.getElementById("desc").textContent = describeWeather(current.weather_code);
   document.getElementById("details").textContent =
-    `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
+     `Cảm giác như ${formatTemp(current.apparent_temperature)} · ` +
+     `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
   resultEl.hidden = false;
 }
 
