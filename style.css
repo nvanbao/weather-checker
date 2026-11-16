@@ -111,3 +111,45 @@ button:hover {
     .secondary:hover {
         background: #bae6fd;
     }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #0b1220;
+    }
+
+    .card {
+        background: #1e293b;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    h1,
+    #place,
+    #temp {
+        color: #f8fafc;
+    }
+
+    #desc,
+    #forecast {
+        color: #cbd5e1;
+    }
+
+    #details,
+    #status {
+        color: #94a3b8;
+    }
+
+    input {
+        background: #0f172a;
+        color: #f8fafc;
+        border-color: #475569;
+    }
+
+    #forecast {
+        border-top-color: #334155;
+    }
+
+    .secondary {
+        background: #0c4a6e;
+        color: #e0f2fe;
+    }
+}
