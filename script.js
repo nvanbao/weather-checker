@@ -51,7 +51,8 @@ function formatTemp(celsius) {
 }
 
 function showWeather(place, current) {
-  document.getElementById("place").textContent = `${place.city}, ${place.country}`;
+  const placeName = [place.city, place.country].filter(Boolean).join(", ");
+  document.getElementById("place").textContent = placeName;
   document.getElementById("temp").textContent = formatTemp(current.temperature_2m);
   document.getElementById("desc").textContent = describeWeather(current.weather_code);
   document.getElementById("details").textContent =
@@ -170,4 +171,33 @@ unitBtn.addEventListener("click", () => {
         // bỏ qua nếu trình duyệt chặn localStorage
     }
     render();
+});
+
+const locateBtn = document.getElementById("locate-btn");
+
+locateBtn.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        statusEl.textContent = "Trình duyệt không hỗ trợ định vị";
+        return;
+    }
+    statusEl.textContent = "Đang xác định vị trí...";
+    resultEl.hidden = true;
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const place = {
+                city: "Vị trí của bạn",
+                country: "",
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            };
+            try {
+                await loadWeather(place);
+            } catch (error) {
+                statusEl.textContent = error.message;
+            }
+        },
+        () => {
+            statusEl.textContent = "Không lấy được vị trí (cần cho phép truy cập vị trí)";
+        }
+    );
 });
