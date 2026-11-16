@@ -148,3 +148,12 @@ if (lastCity) {
     input.value = lastCity;
     search();
 }
+
+
+const unitBtn = document.getElementById("unit-btn");
+
+unitBtn.addEventListener("click", () => {
+    unit = unit === "C" ? "F" : "C";
+    unitBtn.textContent = unit === "C" ? "°F" : "°C";
+    render();
+});
