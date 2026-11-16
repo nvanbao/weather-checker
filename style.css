@@ -100,3 +100,14 @@ button:hover {
   color: #334155;
   line-height: 1.8;
 }
+
+.secondary {
+    width: 100%;
+    margin-top: 8px;
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+    .secondary:hover {
+        background: #bae6fd;
+    }
