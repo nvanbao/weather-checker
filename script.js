@@ -15,6 +15,7 @@ async function geocodeCity(name) {
 }
 
 async function getWeather(latitude, longitude) {
+
   const url =
     "https://api.open-meteo.com/v1/forecast" +
     `?latitude=${latitude}&longitude=${longitude}` +
@@ -25,20 +26,18 @@ async function getWeather(latitude, longitude) {
   const data = await res.json();
   return data.current;
 }
-
-function describeWeather(code) {
-  if (code === 0) return "Trời quang";
-  if (code <= 3) return "Có mây";
-  if (code === 45 || code === 48) return "Sương mù";
-  if (code >= 51 && code <= 57) return "Mưa phùn";
-  if (code >= 61 && code <= 67) return "Mưa";
-  if (code >= 71 && code <= 77) return "Tuyết";
-  if (code >= 80 && code <= 82) return "Mưa rào";
-  if (code === 85 || code === 86) return "Mưa tuyết";
-  if (code >= 95) return "Dông";
-  return "Không rõ";
+function weatherIcon(code) {
+    if (code === 0) return "☀️";
+    if (code <= 3) return "⛅";
+    if (code === 45 || code === 48) return "🌫️";
+    if (code >= 51 && code <= 57) return "🌦️";
+    if (code >= 61 && code <= 67) return "🌧️";
+    if (code >= 71 && code <= 77) return "❄️";
+    if (code >= 80 && code <= 82) return "🌧️";
+    if (code === 85 || code === 86) return "🌨️";
+    if (code >= 95) return "⛈️";
+    return "🌡️";
 }
-
 const resultEl = document.getElementById("result");
 
 let lastData = null;
@@ -54,10 +53,8 @@ function showWeather(place, current) {
   const placeName = [place.city, place.country].filter(Boolean).join(", ");
   document.getElementById("place").textContent = placeName;
   document.getElementById("temp").textContent = formatTemp(current.temperature_2m);
-  document.getElementById("desc").textContent = describeWeather(current.weather_code);
-  document.getElementById("details").textContent =
-     `Cảm giác như ${formatTemp(current.apparent_temperature)} · ` +
-     `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
+  document.getElementById("desc").textContent =`${weatherIcon(current.weather_code)} ${describeWeather(current.weather_code)}`;
+  document.getElementById("details").textContent =`Cảm giác như ${formatTemp(current.apparent_temperature)} · ` + `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
   resultEl.hidden = false;
 }
 
