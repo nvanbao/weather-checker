@@ -55,6 +55,7 @@ function showWeather(place, current) {
   document.getElementById("temp").textContent = formatTemp(current.temperature_2m);
   document.getElementById("desc").textContent =`${weatherIcon(current.weather_code)} ${describeWeather(current.weather_code)}`;
   document.getElementById("details").textContent =`Cảm giác như ${formatTemp(current.apparent_temperature)} · ` + `Độ ẩm ${current.relative_humidity_2m}% · Gió ${current.wind_speed_10m} km/h`;
+  document.getElementById("updated").textContent = `Cập nhật lúc ${current.time.slice(11, 16)}`;
   resultEl.hidden = false;
 }
 
