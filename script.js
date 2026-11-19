@@ -75,7 +75,10 @@ function render() {
 
 async function search() {
     const name = input.value.trim();
-    if (!name) return;
+    if (!name) {
+        statusEl.textContent = "Vui lòng nhập tên thành phố";
+        return;
+    }
     statusEl.textContent = "Đang tải...";
     resultEl.hidden = true;
     searchBtn.disabled = true;
