@@ -10,7 +10,9 @@ Dữ liệu lấy từ API miễn phí [Open-Meteo](https://open-meteo.com/) (kh
 - Nhớ thành phố tìm gần nhất
 - Dùng vị trí hiện tại của thiết bị
 - Giao diện tối theo cài đặt hệ thống
-
+- Biểu tượng emoji theo tình trạng thời tiết
+- Giờ mặt trời mọc, lặn và giờ cập nhật dữ liệu
+- Lưu 5 thành phố tìm gần đây, bấm để tìm lại
 ## Cách chạy
 Mở file `index.html` bằng trình duyệt.
 
