@@ -169,3 +169,34 @@ button:hover {
         color: #94a3b8;
     }
 }
+
+#recent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.chip {
+    margin: 0;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #334155;
+    font-size: 0.85rem;
+}
+
+    .chip:hover {
+        background: #cbd5e1;
+    }
+
+@media (prefers-color-scheme: dark) {
+    .chip {
+        background: #334155;
+        color: #e2e8f0;
+    }
+
+        .chip:hover {
+            background: #475569;
+        }
+}
