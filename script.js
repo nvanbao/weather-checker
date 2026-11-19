@@ -78,6 +78,7 @@ async function search() {
     if (!name) return;
     statusEl.textContent = "Đang tải...";
     resultEl.hidden = true;
+    searchBtn.disabled = true;
     try {
         const place = await geocodeCity(name);
         await loadWeather(place);
@@ -85,6 +86,8 @@ async function search() {
         addRecent(name);
     } catch (error) {
         statusEl.textContent = error.message;
+    } finally {
+        searchBtn.disabled = false;
     }
 }
 
