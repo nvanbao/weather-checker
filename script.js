@@ -70,6 +70,7 @@ function render() {
     if (!lastData) return;
     showWeather(lastData.place, lastData.current);
     showForecast(lastData.daily);
+    showSun(lastData.daily);
 }
 
 async function search() {
@@ -95,12 +96,18 @@ async function getForecast(latitude, longitude) {
   const url =
     "https://api.open-meteo.com/v1/forecast" +
     `?latitude=${latitude}&longitude=${longitude}` +
-    "&daily=temperature_2m_max,temperature_2m_min" +
+      "&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset" +
     "&forecast_days=4&timezone=auto";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Không lấy được dự báo");
   const data = await res.json();
   return data.daily;
+}
+
+function showSun(daily) {
+    const rise = daily.sunrise[0].slice(11, 16);
+    const set = daily.sunset[0].slice(11, 16);
+    document.getElementById("sun").textContent = `Mặt trời mọc ${rise} · lặn ${set}`;
 }
 
 function formatDay(dateString) {
