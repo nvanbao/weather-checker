@@ -82,6 +82,7 @@ async function search() {
         const place = await geocodeCity(name);
         await loadWeather(place);
         saveLastCity(name);
+        addRecent(name);
     } catch (error) {
         statusEl.textContent = error.message;
     }
@@ -205,3 +206,42 @@ locateBtn.addEventListener("click", () => {
         }
     );
 });
+
+const RECENT_KEY = "weather-recent";
+const MAX_RECENT = 5;
+const recentEl = document.getElementById("recent");
+
+function loadRecent() {
+    try {
+        return JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function addRecent(name) {
+    const list = loadRecent().filter((item) => item.toLowerCase() !== name.toLowerCase());
+    list.unshift(name);
+    try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
+    } catch (error) {
+        // bỏ qua nếu trình duyệt chặn localStorage
+    }
+    renderRecent();
+}
+
+function renderRecent() {
+    recentEl.innerHTML = "";
+    loadRecent().forEach((name) => {
+        const chip = document.createElement("button");
+        chip.textContent = name;
+        chip.className = "chip";
+        chip.addEventListener("click", () => {
+            input.value = name;
+            search();
+        });
+        recentEl.appendChild(chip);
+    });
+}
+
+renderRecent();
